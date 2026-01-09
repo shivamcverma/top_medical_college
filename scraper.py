@@ -11,14 +11,14 @@ import platform
 
 medical_sections = {
     "Top MEDICAL Colleges in India": "https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-india/100-2-0-0-0",
-    "top medical colleges in karnataka": "https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-karnataka/100-2-106-0-0",
-    "top pharmacy colleges in india": "https://www.shiksha.com/medicine-health-sciences/pharmacy/ranking/top-pharmacy-colleges-in-india/117-2-0-0-0",
-    "top medical colleges in bangalore": "https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-bangalore/100-2-0-278-0",
-    "top dental colleges in india":"https://www.shiksha.com/medicine-health-sciences/dental/ranking/top-dental-colleges-in-india/119-2-0-0-0",
-    "top medical colleges in maharashtra":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-maharashtra/100-2-114-0-0",
-    "top medical colleges in mumbai":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-mumbai/100-2-0-151-0",
-    "top medical colleges in delhi":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-delhi/100-2-0-74-0",
-    "top pharmacy colleges in maharashtra":"https://www.shiksha.com/medicine-health-sciences/pharmacy/ranking/top-pharmacy-colleges-in-maharashtra/117-2-114-0-0",
+    # "top medical colleges in karnataka": "https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-karnataka/100-2-106-0-0",
+    # "top pharmacy colleges in india": "https://www.shiksha.com/medicine-health-sciences/pharmacy/ranking/top-pharmacy-colleges-in-india/117-2-0-0-0",
+    # "top medical colleges in bangalore": "https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-bangalore/100-2-0-278-0",
+    # "top dental colleges in india":"https://www.shiksha.com/medicine-health-sciences/dental/ranking/top-dental-colleges-in-india/119-2-0-0-0",
+    # "top medical colleges in maharashtra":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-maharashtra/100-2-114-0-0",
+    # "top medical colleges in mumbai":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-mumbai/100-2-0-151-0",
+    # "top medical colleges in delhi":"https://www.shiksha.com/medicine-health-sciences/ranking/top-medical-colleges-in-delhi/100-2-0-74-0",
+    # "top pharmacy colleges in maharashtra":"https://www.shiksha.com/medicine-health-sciences/pharmacy/ranking/top-pharmacy-colleges-in-maharashtra/117-2-114-0-0",
    
  
 }
@@ -45,12 +45,13 @@ def create_driver():
 def scrape():
     driver = create_driver()
     all_sections_data = []
+    c_count = 1
 
     try:
         for category_name, category_url in medical_sections.items():
             colleges_in_section = []
 
-            for page in range(1, 5):
+            for page in range(1, 3):
                 url = category_url if page == 1 else f"{category_url}?pageNo={page}"
                 driver.get(url)
                 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -122,6 +123,7 @@ def scrape():
                         pass
 
                     colleges_in_section.append({
+                        "id":f"college_{c_count:03d}",
                         "college_img": college_img,
                         "name": college_name,
                         "nirf": nirf_rank,
@@ -134,6 +136,7 @@ def scrape():
                             }
                         }
                     })
+                    c_count += 1
 
                 time.sleep(2)
 
