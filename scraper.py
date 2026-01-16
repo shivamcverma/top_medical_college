@@ -51,8 +51,6 @@ def create_driver():
         options=options
     )
 
-TEMP_FILE = "top_medical_college_data.tmp.json"
-FINAL_FILE = "top_medical_college_data.json"
 
 def scrape():
     driver = create_driver()
@@ -159,6 +157,11 @@ def scrape():
 
     finally:
         driver.quit()
+    return all_sections_data
+
+TEMP_FILE = "top_medical_college_data.tmp.json"
+FINAL_FILE = "top_medical_college_data.json"
+if __name__ == "__main__":
     data = scrape()
     with open(TEMP_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
@@ -168,5 +171,3 @@ def scrape():
 
     print("✅ Data scraped & saved successfully (atomic write)")
 
-if __name__ == "__main__":
-    scrape()
